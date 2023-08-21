@@ -3,14 +3,13 @@ import json from "./parser.js";
 import GameSaving from "./GameSaving.js";
 
 export default class GameSavingLoader {
-  static load() {
-    return new Promise((resolve) => {
-      read().then((response) => {
-        json(response).then((data) => {
-          const save = JSON.parse(data);
-          resolve(new GameSaving(save));
-        });
-      });
-    });
+  static async load() {
+    try {
+      const readed = await read();
+      const jsonDec = await json(readed);
+      return new GameSaving(JSON.parse(jsonDec));
+    } catch (error) {
+      alert(error);
+    }
   }
 }
